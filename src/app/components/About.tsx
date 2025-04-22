@@ -2,9 +2,39 @@
 
 import Image from 'next/image';
 import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
-// import Typewriter from 'typewriter-effect';
+import { useEffect, useState } from 'react';
 
 export default function HeroSection() {
+  const words = ['Full Stack Developer.', 'CMS Developer.'];
+  const [text, setText] = useState('');
+  const [index, setIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
+
+  useEffect(() => {
+    const currentWord = words[index];
+    let timeoutId: NodeJS.Timeout;
+
+    if (!isDeleting && charIndex < currentWord.length) {
+      timeoutId = setTimeout(() => {
+        setText(currentWord.substring(0, charIndex + 1));
+        setCharIndex(charIndex + 1);
+      }, 70); // typing speed
+    } else if (!isDeleting && charIndex === currentWord.length) {
+      timeoutId = setTimeout(() => setIsDeleting(true), 1500); // pause before deleting
+    } else if (isDeleting && charIndex > 0) {
+      timeoutId = setTimeout(() => {
+        setText(currentWord.substring(0, charIndex - 1));
+        setCharIndex(charIndex - 1);
+      }, 30); // deleting speed
+    } else if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setIndex((prev) => (prev + 1) % words.length);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [charIndex, isDeleting, index, words]);
+
   return (
     <section
       id="about"
@@ -13,27 +43,17 @@ export default function HeroSection() {
       <article className="container m-6 flex flex-col-reverse md:flex-row items-center justify-center text-center md:text-left">
         {/* Left Content */}
         <div className="md:w-7/12 flex flex-col items-center md:items-start mt-10 md:mt-30 mr-0 md:mr-10">
-          {/* First Paragraph */}
           <p className="text-[16px] md:text-[22px] uppercase tracking-wide text-gray-400 mb-2 pb-4">
             Welcome to my portfolio
           </p>
 
           {/* Heading with Typewriter */}
-          <h2 className="about-head text-3xl md:text-5xl font-bold pb-4 leading-snug">
-            Hi, I’m <span className="text-[#800080]">Jawwad Ashfaq</span>
-            <span className="text-white">, </span>
-            {/* <Typewriter
-              options={{
-                strings: ['Full Stack Developer.', 'CMS Developer.'],
-                autoStart: true,
-                loop: true,
-                delay: 75,
-                deleteSpeed: 10,
-              }}
-            /> */}
+          <h2 className="text-3xl md:text-5xl font-bold pb-4 leading-snug">
+            Hi, I’m <span className="text-[#800080]">Jawwad Ashfaq,</span><br />
+            <span className="text-white">{text}</span>
+            <span className="blinking-cursor">|</span>
           </h2>
 
-          {/* Main Paragraph */}
           <p className="text-[16px] md:text-lg mt-[20px] md:mt-4 text-gray-300 mx-[20px] md:mx-0">
             Passionate Web Developer with a deep expertise in modern technologies, dedicated to
             crafting dynamic, high-performance websites that are fast, user-friendly, and optimized
@@ -86,6 +106,27 @@ export default function HeroSection() {
           />
         </div>
       </article>
+
+      {/* Blinking Cursor Style */}
+      <style jsx>{`
+  .blinking-cursor {
+    display: inline-block;
+    color: #ffffff; /* White color */
+    font-weight: normal;
+    font-size: inherit;
+    line-height: 1.2;
+    height: 1em;
+    animation: blink 1s step-start infinite;
+    vertical-align: baseline;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+`}</style>
+
     </section>
   );
 }
