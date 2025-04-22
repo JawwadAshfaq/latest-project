@@ -38,7 +38,7 @@ export default function HeroSection() {
   return (
     <section
       id="about"
-      className="max-w-[1300px] mx-auto text-white mt-10 flex items-center justify-center scroll-mt-20"
+      className="max-w-[1300px] mx-auto text-white flex items-center justify-center scroll-mt-20"
     >
       <article className="container m-6 flex flex-col-reverse md:flex-row items-center justify-center text-center md:text-left">
         {/* Left Content */}

@@ -30,7 +30,7 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" className="max-w-[1300px] mx-auto mt-16 md:mt-30 px-6">
+    <section id="services" className="max-w-[1300px] mx-auto mt-16 md:mt-25 px-6">
       <hr className="h-[1px] border-[#800080] mb-14 md:mb-24" />
       <div className="container mx-auto text-center">
         <h4 className="text-[16px] md:text-[22px] font-bold text-[#800080]">
