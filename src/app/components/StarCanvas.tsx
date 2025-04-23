@@ -49,20 +49,26 @@ const StarCanvas = () => {
     }
 
     const animate = () => {
-      ctx.fillStyle = "#030014";
+      ctx.fillStyle = "#030014"; // Background color
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#ffffff";
-
+    
       for (const star of stars) {
         ctx.beginPath();
+        
+        // Set white color for small stars
+        if (star.isLarge) {
+          ctx.fillStyle = "#fff";  // White for large stars
+        } else {
+          ctx.fillStyle = "#fff";  // White for small stars
+        }
+    
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
-
+    
         if (star.isLarge) {
           star.x += star.dx * star.speed;
           star.y += star.dy * star.speed;
-
+    
           if (star.x < 0) star.x = canvas.width;
           if (star.x > canvas.width) star.x = 0;
           if (star.y < 0) star.y = canvas.height;
@@ -70,14 +76,15 @@ const StarCanvas = () => {
         } else {
           star.x += star.speed;
           star.y += star.speed;
-
+    
           if (star.x > canvas.width) star.x = 0;
           if (star.y > canvas.height) star.y = 0;
         }
       }
-
+    
       requestAnimationFrame(animate);
     };
+    
 
     animate();
 
