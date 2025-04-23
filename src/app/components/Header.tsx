@@ -29,9 +29,11 @@ const Header = () => {
       <div className="max-w-[1300px] mx-auto mb-2 mt-2 px-4">
         <header className="flex justify-between items-center py-2">
           <div className="logo">
+            <a href="/">
             <h1 className="text-[24px] md:text-[28px] font-bold text-white">
               {"<Jawwad Ashfaq />"}
             </h1>
+            </a>
           </div>
 
           <ul className="hidden md:flex space-x-5 items-center gap-x-6">
