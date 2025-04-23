@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -10,6 +10,11 @@ import clsx from 'clsx';
 const Header = () => {
   const pathname = usePathname() || '';
   const [open, setOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false); // For client-side rendering
+
+  useEffect(() => {
+    setIsClient(true); // Ensure the code only runs on the client
+  }, []);
 
   const contactLink = process.env.NEXT_PUBLIC_CONTACT_LINK || "https://wa.me/923191542621";
 
@@ -24,6 +29,11 @@ const Header = () => {
     }
   };
 
+  // Only render the component when it's on the client
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <>
       <div className="max-w-[1300px] mx-auto mb-2 mt-2 px-4">
@@ -36,28 +46,36 @@ const Header = () => {
 
           <ul className="hidden md:flex space-x-5 items-center gap-x-6">
             <li className="pt-2 font-[600]">
-              <button onClick={() => scrollToSection("home")} className={linkStyle("/")}>
-                HOME
-                <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
-              </button>
+              <Link href="/" className={linkStyle("/")}>
+                <button onClick={() => scrollToSection("home")}>
+                  HOME
+                  <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
+                </button>
+              </Link>
             </li>
             <li className="pt-2">
-              <button onClick={() => scrollToSection("about")} className={linkStyle("/about")}>
-                ABOUT
-                <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
-              </button>
+              <Link href="/about" className={linkStyle("/about")}>
+                <button onClick={() => scrollToSection("about")}>
+                  ABOUT
+                  <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
+                </button>
+              </Link>
             </li>
             <li className="pt-2">
-              <button onClick={() => scrollToSection("services")} className={linkStyle("/services")}>
-                SERVICES
-                <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
-              </button>
+              <Link href="/services" className={linkStyle("/services")}>
+                <button onClick={() => scrollToSection("services")}>
+                  SERVICES
+                  <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
+                </button>
+              </Link>
             </li>
             <li className="pt-2">
-              <button onClick={() => scrollToSection("portfolio")} className={linkStyle("/portfolio")}>
-                PORTFOLIO
-                <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
-              </button>
+              <Link href="/portfolio" className={linkStyle("/portfolio")}>
+                <button onClick={() => scrollToSection("portfolio")}>
+                  PORTFOLIO
+                  <span className="absolute left-0 bottom-[-5px] w-0 h-[2px] bg-[#800080] group-hover:w-full transition-all"></span>
+                </button>
+              </Link>
             </li>
             <button className="bg-head-btn px-4 py-2 text-white rounded font-semibold hover:bg-purple-800 transition">
               <a href={contactLink} target="_blank" rel="noopener noreferrer">
@@ -86,24 +104,32 @@ const Header = () => {
 
               <ul className="flex flex-col space-y-6 mt-6 p-5 text-[22px]">
                 <li>
-                  <button onClick={() => scrollToSection("home")} className={linkStyle("/")}>
-                    Home
-                  </button>
+                  <Link href="/" className={linkStyle("/")}>
+                    <button onClick={() => scrollToSection("home")}>
+                      Home
+                    </button>
+                  </Link>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("about")} className={linkStyle("/about")}>
-                    About
-                  </button>
+                  <Link href="/about" className={linkStyle("/about")}>
+                    <button onClick={() => scrollToSection("about")}>
+                      About
+                    </button>
+                  </Link>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("services")} className={linkStyle("/services")}>
-                    Services
-                  </button>
+                  <Link href="/services" className={linkStyle("/services")}>
+                    <button onClick={() => scrollToSection("services")}>
+                      Services
+                    </button>
+                  </Link>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection("portfolio")} className={linkStyle("/portfolio")}>
-                    Portfolio
-                  </button>
+                  <Link href="/portfolio" className={linkStyle("/portfolio")}>
+                    <button onClick={() => scrollToSection("portfolio")}>
+                      Portfolio
+                    </button>
+                  </Link>
                 </li>
                 <li>
                   <Link href="/contact" className={linkStyle("/contact")} onClick={() => setOpen(false)}>
