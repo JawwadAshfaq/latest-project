@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const StarCanvas = () => {
+  const canvasRef = useRef<HTMLDivElement>(null); // Explicitly type the ref as HTMLDivElement
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js";
     script.async = true;
+
     script.onload = () => {
       const scene = new window.THREE.Scene();
       const camera = new window.THREE.PerspectiveCamera(
@@ -18,12 +21,14 @@ const StarCanvas = () => {
       const renderer = new window.THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor("#030014"); // Background color
-      document.body.appendChild(renderer.domElement);
+      if (canvasRef.current) {
+        canvasRef.current.appendChild(renderer.domElement); // Append renderer to the div reference
+      }
 
       const geometry = new window.THREE.BufferGeometry();
       const vertices = [];
 
-      for (let i = 0; i < 2500; i++) { // Slightly reduced number of stars
+      for (let i = 0; i < 2500; i++) {
         const x = (Math.random() - 0.5) * 10;
         const y = (Math.random() - 0.5) * 10;
         const z = (Math.random() - 0.5) * 10;
@@ -56,11 +61,25 @@ const StarCanvas = () => {
       };
 
       animate();
+
+      // Resize handler for responsive canvas
+      const resizeHandler = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+
+      window.addEventListener("resize", resizeHandler);
+
+      return () => {
+        window.removeEventListener("resize", resizeHandler);
+      };
     };
-    document.body.appendChild(script);
+
+    document.body.appendChild(script); // Dynamically load the script
   }, []);
 
-  return null;
+  return <div ref={canvasRef} />; // Render the container div for the canvas
 };
 
 export default StarCanvas;
