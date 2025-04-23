@@ -54,7 +54,7 @@ export default function HeroSection() {
             <span className="blinking-cursor">|</span>
           </h2>
 
-          <p className="text-[16px] md:text-lg mt-[20px] md:mt-4 text-gray-300 mx-[15px] md:mx-0">
+          <p className="text-[16px] md:text-lg mt-[20px] md:mt-4 text-gray-300 md:mx-0">
             Passionate Web Developer with a deep expertise in modern technologies, dedicated to
             crafting dynamic, high-performance websites that are fast, user-friendly, and optimized
             for seamless user experience. With 3 years of experience and over 50+ completed

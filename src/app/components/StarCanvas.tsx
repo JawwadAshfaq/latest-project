@@ -8,15 +8,23 @@ interface Star {
   size: number;
   speed: number;
   isLarge: boolean;
-  dx: number; // Horizontal speed component
-  dy: number; // Vertical speed component
+  dx: number;
+  dy: number;
 }
 
 const StarCanvas = () => {
   useEffect(() => {
     const canvas = document.createElement("canvas");
     const container = document.getElementById("star-canvas-container");
-    if (container) container.appendChild(canvas);
+    if (container) {
+      canvas.style.position = "absolute";
+      canvas.style.top = "0";
+      canvas.style.left = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      container.appendChild(canvas);
+    }
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -29,7 +37,7 @@ const StarCanvas = () => {
 
     const stars: Star[] = [];
     const numStars = 1000;
-    const numLargeStars = 4; // Now 8 large stars
+    const numLargeStars = 8;
 
     for (let i = 0; i < numStars; i++) {
       const isLarge = i < numLargeStars;
@@ -39,36 +47,27 @@ const StarCanvas = () => {
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: isLarge ? Math.random() * 2 + 1 : Math.random() * 0.2 + 0.02,
-        speed: isLarge ? Math.random() * 4.5 + 4.5 : Math.random() * 0.5 + 0.1,
+        size: isLarge ? Math.random() * 2 + 1 : Math.random() * 0.5 + 0.2,
+        speed: isLarge ? Math.random() * 4.5 + 4.5 : Math.random() * 0.5 + 0.3,
         isLarge,
         dx,
         dy,
       });
-      
     }
 
     const animate = () => {
-      ctx.fillStyle = "#030014"; // Background color
+      ctx.fillStyle = "#030014";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
       for (const star of stars) {
         ctx.beginPath();
-        
-        // Set white color for small stars
-        if (star.isLarge) {
-          ctx.fillStyle = "#fff";  // White for large stars
-        } else {
-          ctx.fillStyle = "#fff";  // White for small stars
-        }
-    
+        ctx.fillStyle = "#fff";
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
-    
+
         if (star.isLarge) {
           star.x += star.dx * star.speed;
           star.y += star.dy * star.speed;
-    
           if (star.x < 0) star.x = canvas.width;
           if (star.x > canvas.width) star.x = 0;
           if (star.y < 0) star.y = canvas.height;
@@ -76,15 +75,13 @@ const StarCanvas = () => {
         } else {
           star.x += star.speed;
           star.y += star.speed;
-    
           if (star.x > canvas.width) star.x = 0;
           if (star.y > canvas.height) star.y = 0;
         }
       }
-    
+
       requestAnimationFrame(animate);
     };
-    
 
     animate();
 
@@ -101,7 +98,20 @@ const StarCanvas = () => {
     };
   }, []);
 
-  return <div id="star-canvas-container"></div>;
+  return (
+    <div
+      id="star-canvas-container"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: -1,
+        overflow: "hidden",
+      }}
+    />
+  );
 };
 
 export default StarCanvas;
