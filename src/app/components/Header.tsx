@@ -80,7 +80,7 @@ const Header = () => {
                   </div>
                 </SheetTitle>
                 <SheetDescription>
-                  Use the menu below to navigate:
+                  {/* Use the menu below to navigate: */}
                 </SheetDescription>
               </SheetHeader>
 
@@ -111,7 +111,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <button className="bg-head-btn px-4 py-2 text-white rounded font-semibold hover:bg-purple-800 transition">
+                  <button className="bg-head-btn px-4 py-2 text-white rounded text-[16px] font-semibold hover:bg-purple-800 transition">
                     <a href={contactLink} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
                       LET&#39;S TALK
                     </a>
