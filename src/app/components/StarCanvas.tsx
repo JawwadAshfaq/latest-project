@@ -1,85 +1,100 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+
+interface Star {
+  x: number;
+  y: number;
+  size: number;
+  speed: number;
+  isLarge: boolean;
+  dx: number; // Horizontal speed component
+  dy: number; // Vertical speed component
+}
 
 const StarCanvas = () => {
-  const canvasRef = useRef<HTMLDivElement>(null); // Explicitly type the ref as HTMLDivElement
-
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js";
-    script.async = true;
+    const canvas = document.createElement("canvas");
+    const container = document.getElementById("star-canvas-container");
+    if (container) container.appendChild(canvas);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    script.onload = () => {
-      const scene = new window.THREE.Scene();
-      const camera = new window.THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
-      const renderer = new window.THREE.WebGLRenderer();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor("#030014"); // Background color
-      if (canvasRef.current) {
-        canvasRef.current.appendChild(renderer.domElement); // Append renderer to the div reference
-      }
+    const ctx = canvas.getContext("2d");
 
-      const geometry = new window.THREE.BufferGeometry();
-      const vertices = [];
+    if (!ctx) {
+      console.error("Failed to get canvas context");
+      return;
+    }
 
-      for (let i = 0; i < 2500; i++) {
-        const x = (Math.random() - 0.5) * 10;
-        const y = (Math.random() - 0.5) * 10;
-        const z = (Math.random() - 0.5) * 10;
-        vertices.push(x, y, z);
-      }
+    const stars: Star[] = [];
+    const numStars = 1000;
+    const numLargeStars = 4; // Now 8 large stars
 
-      geometry.setAttribute(
-        "position",
-        new window.THREE.Float32BufferAttribute(vertices, 3)
-      );
+    for (let i = 0; i < numStars; i++) {
+      const isLarge = i < numLargeStars;
+      const dx = Math.random() * 0.5 - 0.25;
+      const dy = Math.random() * 0.5 - 0.25;
 
-      const material = new window.THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 0.01, // Smallest practical size
-        sizeAttenuation: true,
-        transparent: true,
-        opacity: 0.5, // Light star feel
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: isLarge ? Math.random() * 2 + 1 : Math.random() * 0.2 + 0.02,
+        speed: isLarge ? Math.random() * 4.5 + 4.5 : Math.random() * 0.5 + 0.1,
+        isLarge,
+        dx,
+        dy,
       });
+      
+    }
 
-      const stars = new window.THREE.Points(geometry, material);
-      scene.add(stars);
+    const animate = () => {
+      ctx.fillStyle = "#030014";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      camera.position.z = 2;
+      ctx.fillStyle = "#ffffff";
 
-      const animate = () => {
-        requestAnimationFrame(animate);
-        stars.rotation.x += 0.0005;
-        stars.rotation.y += 0.001;
-        renderer.render(scene, camera);
-      };
+      for (const star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
 
-      animate();
+        if (star.isLarge) {
+          star.x += star.dx * star.speed;
+          star.y += star.dy * star.speed;
 
-      // Resize handler for responsive canvas
-      const resizeHandler = () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      };
+          if (star.x < 0) star.x = canvas.width;
+          if (star.x > canvas.width) star.x = 0;
+          if (star.y < 0) star.y = canvas.height;
+          if (star.y > canvas.height) star.y = 0;
+        } else {
+          star.x += star.speed;
+          star.y += star.speed;
 
-      window.addEventListener("resize", resizeHandler);
+          if (star.x > canvas.width) star.x = 0;
+          if (star.y > canvas.height) star.y = 0;
+        }
+      }
 
-      return () => {
-        window.removeEventListener("resize", resizeHandler);
-      };
+      requestAnimationFrame(animate);
     };
 
-    document.body.appendChild(script); // Dynamically load the script
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      if (container) container.removeChild(canvas);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  return <div ref={canvasRef} />; // Render the container div for the canvas
+  return <div id="star-canvas-container"></div>;
 };
 
 export default StarCanvas;
