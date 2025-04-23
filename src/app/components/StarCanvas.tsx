@@ -36,7 +36,7 @@ const StarCanvas = () => {
     }
 
     const stars: Star[] = [];
-    const numStars = 1200;
+    const numStars = 1100;
     const numLargeStars = 8;
 
     for (let i = 0; i < numStars; i++) {
