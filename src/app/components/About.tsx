@@ -49,7 +49,7 @@ export default function HeroSection() {
 
           {/* Heading with Typewriter */}
           <h2 className="text-3xl md:text-5xl font-bold pb-4 leading-snug">
-            Hi, I’m <span className="text-[#800080]">Jawad Ashfaq,</span><br />
+            Hi, I’m <span className="text-[#800080]">Jawwad Ashfaq,</span><br />
             <span className="text-white">{text}</span>
             <span className="blinking-cursor">|</span>
           </h2>
