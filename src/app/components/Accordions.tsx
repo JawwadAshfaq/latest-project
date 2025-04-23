@@ -37,7 +37,7 @@ const Accordion = () => {
 
   return (
     <>
-    <div className="max-w-[1300px] mx-auto p-6">
+    <div id="faqs" className="max-w-[1300px] mx-auto p-6">
     <hr className="h-[1px] border-[#800080] mt-15 mb-6 md:mt-20 md:mb-10" />
     </div>
     <div className="max-w-[1000px] mx-auto p-6">

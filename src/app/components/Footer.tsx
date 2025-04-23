@@ -85,7 +85,7 @@ const Footer = () => {
                   <div className="bg-head-btn bg-gradient-to-r from-[#bb00d4] to-[#0007ff] p-2 rounded-full mr-2">
                     <FaPhoneAlt className="text-white text-[16px]" />
                   </div>
-                  <a href="tel:+923323926157" className="hover:underline">+92-319-1542621</a>
+                  <a href="tel:+923191542621" className="hover:underline">+92-319-1542621</a>
                 </div>
                 <div className="flex items-center text-lg">
                   <div className="bg-head-btn bg-gradient-to-r from-[#bb00d4] to-[#0007ff] p-2 rounded-full mr-2">

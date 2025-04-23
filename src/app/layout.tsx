@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "Jawwad Ashfaq is a professional Website Developer in Pakistan, specializing in Website Development, Speed Optimization, and Maintenance Services for high-performance and SEO-friendly websites.",
   icons: {
-    icon: { url: "/favicon1.png", type: "image/png" }, // Favicon included here
+    icon: { url: "/favicon.png", type: "image/png" }, // Favicon included here
   },
 };
 
