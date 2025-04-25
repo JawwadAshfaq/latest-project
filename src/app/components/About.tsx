@@ -95,9 +95,9 @@ export default function HeroSection() {
         </div>
 
         {/* Right Image */}
-        <div className="md:w-5/12 flex justify-center mb-5 md:mb-0">
+        <div className="md:w-5/12 flex justify-center mb-5 md:mb-0 profile-img mt-10">
           <Image
-            src="/profile.png"
+            src="/profile5.png"
             alt="Jawwad Ashfaq - Web Developer"
             width={500}
             height={450}
